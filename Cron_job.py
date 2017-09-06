@@ -1,4 +1,6 @@
 from Shell_client import *
+import smtplib
+
 
 class Cron_job:
     def __init__(self):
@@ -12,7 +14,10 @@ class Cron_job:
         j = 0
         name_arr = []
         for i in range(5/len(result)):
-            name_arr.append(result[j])
+            u_data = []
+            for y in range(j+1,j+5):
+                u_data.append(result[y])
+            name_arr.append({result[j]:u_data})
             j += 5
         return name_arr
 
@@ -28,5 +33,22 @@ class Cron_job:
     def check_threshholds(self):
         pass
 
-    def send_alert(self):
-        pass
+    def send_alert(self,fromaddr,toaddrs,message):
+        """fromaddr = 'freebsdcommtracker@gmail.com'
+        toaddrs  = 'velychko@ucu.edu.ua'
+        message = "hello, just testing"""
+        msg = """From: {}
+To: {},
+Subject: Just a message
+
+{}
+"""
+        username = 'freebsdcommtracker@gmail.com'
+        password = 'Freebsd2017'
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.ehlo()
+        server.starttls()
+        server.login(username,password)
+        msg = msg.format(fromaddr,toaddrs,message)
+        server.sendmail(fromaddr, toaddrs, msg)
+        server.quit()
