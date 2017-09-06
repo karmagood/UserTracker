@@ -1,10 +1,11 @@
 from Shell_client import *
 import smtplib
-
+from DB_client import *
 
 class Cron_job:
     def __init__(self):
         self.shell_c = Shell_client()
+        self.DB_client = DB_client()
 
     def get_host_users(self):
         command = "who"
@@ -13,7 +14,7 @@ class Cron_job:
         result = filter(None,result)
         j = 0
         name_arr = []
-        for i in range(5/len(result)):
+        for i in range(len(result)/5):
             u_data = []
             for y in range(j+1,j+5):
                 u_data.append(result[y])
@@ -21,8 +22,10 @@ class Cron_job:
             j += 5
         return name_arr
 
-    def get_db_user_data(self):
-        pass
+    def get_db_user_data(self,username):
+        querie = "SELECT * FROM users WHERE username = "+ username
+        DB_client.cur.e
+
 
     def check_history(self):
         pass
