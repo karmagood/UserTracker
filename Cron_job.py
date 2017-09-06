@@ -23,8 +23,24 @@ class Cron_job:
         return name_arr
 
     def get_db_user_data(self,username):
+        """
+        :param username Users name
+
+        collects data from user
+
+        """
         querie = "SELECT * FROM users WHERE username = "+ username
-        DB_client.cur.e
+        user_data = self.DB_client.read(querie)
+        user_id = user_data[0]
+        querie = "SELECT * FROM user_command WHERE user_id = "+ str(user_id)
+        commands_ids = self.DB_client.read(querie)
+        commands = []
+        for item in commands_ids:
+            querie = "SELECT * FROM commands WHERE command_id = "+ str(item[2])
+            commands.append(self.DB_client.read(querie))
+
+
+
 
 
     def check_history(self):
