@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS users (
-	username varchar(255),
+	username varchar(255) NOT NULL,
 	email varchar(255),
-	history_path varchar(255)
+	history_path varchar(255),
+	PRIMARY KEY (username)
 );
 CREATE TABLE IF NOT EXISTS user_command (
 	username varchar(255) NOT NULL,
@@ -16,7 +17,8 @@ CREATE TABLE IF NOT EXISTS user_command (
 	counter int
 );
 CREATE TABLE IF NOT EXISTS commands (
-	command varchar(255),
-	threshold integer
+	command varchar(255) NOT NULL,
+	threshold integer,
+	PRIMARY KEY (command)
 );
 	
