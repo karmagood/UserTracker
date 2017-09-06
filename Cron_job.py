@@ -5,8 +5,10 @@ class Cron_job:
         self.shell_c = Shell_client()
 
     def get_host_users(self):
-        command = "who -a"
-        result = self.shell_c.call(command)
+        command = "who"
+        output = self.shell_c.call(command)
+        result = output.strip().split(" ")
+        result = filter(None,result)
         return result
 
     def get_db_user_data(self):
