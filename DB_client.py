@@ -11,11 +11,13 @@ class DB_client:
 
     def read(self,querie):
         # Accepts read querie and executes it
-        self.cur.execute(querie)
+        result = self.cur.execute(querie)
+        return result
 
     def write(self,querie):
         # Accepts write querie and executes it
         self.cur.execute(querie)
+
 
 
     def show_all(self):
