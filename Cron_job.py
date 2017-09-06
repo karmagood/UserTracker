@@ -12,7 +12,10 @@ class Cron_job:
         j = 0
         name_arr = []
         for i in range(5/len(result)):
-            name_arr.append(result[j])
+            u_data = []
+            for y in range(j+1,j+5):
+                u_data.append(result[y])
+            name_arr.append({result[j]:u_data})
             j += 5
         return name_arr
 
