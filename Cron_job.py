@@ -9,7 +9,12 @@ class Cron_job:
         output = self.shell_c.call(command)
         result = output.strip().split(" ")
         result = filter(None,result)
-        return result
+        j = 0
+        name_arr = []
+        for i in range(5/len(result)):
+            name_arr.append(result[j])
+            j += 5
+        return name_arr
 
     def get_db_user_data(self):
         pass
