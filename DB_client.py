@@ -11,7 +11,8 @@ class DB_client:
 
     def read(self,querie):
         # Accepts read querie and executes it
-        result = self.cur.execute(querie)
+        self.cur.execute(querie)
+        result = self.cur.fetchall()
         return result
 
     def write(self,querie):
