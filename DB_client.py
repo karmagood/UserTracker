@@ -7,7 +7,7 @@ class DB_client:
                                     user="username",         # your username
                                     passwd="pass",  # your password
                                     db="userTracker")        # name of the data base
-        self.cur = self.db.cursor()       #cursor that lets execute quiery
+        self.cur = self.db.cursor(MySQLdb.cursors.DictCursor)       #cursor that lets execute quiery
 
     def read(self,querie):
         # Accepts read querie and executes it
