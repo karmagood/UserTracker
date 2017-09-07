@@ -1,17 +1,13 @@
 from Shell_client import *
 import smtplib
 from DB_client import *
-from Users_DB_object import *
-from User_command_DB_object import *
-from Commands_DB_object import *
 
 
 class Cron_job:
     def __init__(self):
         self.shell_c = Shell_client()
         self.DB_client = DB_client()
-        self.Users_DB_object = Users_DB_object()
-        self.U
+
 
     def get_host_users(self):
         """
