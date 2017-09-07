@@ -18,6 +18,7 @@ class DB_client:
     def write(self,querie):
         # Accepts write querie and executes it
         self.cur.execute(querie)
+        self.db.commit()
 
 
 
