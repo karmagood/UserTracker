@@ -67,7 +67,8 @@ class Cron_job:
         :param command: comand to check for ('ls')
 
 
-        :return: true if count of users commands used is greater of equel to threshold
+        if commands threshold is reached by user, email will be sent
+        to user notifying him.
         """
         querie = "SELECT * FROM users WHERE username = "+ username
         user_data = self.DB_client.read(querie)
@@ -75,12 +76,15 @@ class Cron_job:
         command_dict =  self.DB_client.read(querie)
         querie = "SELECT * FROM user_command WHERE user_id = "+str(user_data["user_id"]) + "AND command_id = " + str(command_dict["command_id"])
         user_command = self.DB_client.read(querie)
-
-        return command_dict["threshold"] <= user_command["count"]
+        if command_dict["threshold"] <= user_command["count"]:
+            self.send_alert(user_data["email"],"You have reached the limit on using "+ command_dict["command"] + " command")
 
 
     def send_alert(self,toaddrs,message):
-        """Sending pram: message to param:toaddrs"""
+        """
+        Sending email param: message
+        to address param:toaddrs
+        """
         fromaddr = 'freebsdcommtracker@gmail.com'
         msg = """From: {}
 To: {},
