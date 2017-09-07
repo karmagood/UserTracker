@@ -31,13 +31,15 @@ class Cron_job:
         """
         querie = "SELECT * FROM users WHERE username = "+ username
         user_data = self.DB_client.read(querie)
-        user_id = user_data[0]
+        user_id = user_data[0][0]
         querie = "SELECT * FROM user_command WHERE user_id = "+ str(user_id)
         commands_ids = self.DB_client.read(querie)
         commands = []
         for item in commands_ids:
             querie = "SELECT * FROM commands WHERE command_id = "+ str(item[2])
-            commands.append(self.DB_client.read(querie))
+            rows = self.DB_client.read(querie)
+            for row in rows:
+                commands.append(row)
 
 
 
@@ -52,10 +54,9 @@ class Cron_job:
     def check_threshholds(self):
         pass
 
-    def send_alert(self,fromaddr,toaddrs,message):
-        """fromaddr = 'freebsdcommtracker@gmail.com'
-        toaddrs  = 'velychko@ucu.edu.ua'
-        message = "hello, just testing"""
+    def send_alert(self,toaddrs,message):
+        """Sending pram: message to param:toaddrs"""
+        fromaddr = 'freebsdcommtracker@gmail.com'
         msg = """From: {}
 To: {},
 Subject: Just a message
