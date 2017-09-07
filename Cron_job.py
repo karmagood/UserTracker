@@ -14,6 +14,10 @@ class Cron_job:
         self.U
 
     def get_host_users(self):
+        """
+        getting all users on the host and some info about them
+        :return: returns list of dictionaries : [{"Vlad":[tty,logedin@]},{...},...]
+        """
         command = "who"
         output = self.shell_c.call(command)
         result = output.strip().split(" ")
@@ -31,9 +35,9 @@ class Cron_job:
     def get_db_user_data(self,username):
         """
         :param username Users name
+        getting all users data from DB
 
-        collects data from user
-
+        :return array of dicts of all users data
         """
         querie = "SELECT * FROM users WHERE username = "+ username
         user_data = self.DB_client.read(querie)
