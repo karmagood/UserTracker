@@ -35,14 +35,14 @@ class Cron_job:
 
         :return array of dicts of all users data
         """
-        querie = "SELECT * FROM users WHERE username = "+ username
+        querie = "SELECT * FROM users WHERE username = '{}'".format(username)
         user_data = self.DB_client.read(querie)
         user_id = user_data[0]["user_id"]
-        querie = "SELECT * FROM user_command WHERE user_id = "+ str(user_id)
+        querie = "SELECT * FROM user_command WHERE user_id = '{}'".format(user_id)
         commands_ids = self.DB_client.read(querie)
         commands = []
         for item in commands_ids:
-            querie = "SELECT * FROM commands WHERE command_id = "+ str(item["command_id"])
+            querie = "SELECT * FROM commands WHERE command_id = '{}'".format(item["command_id"])
             rows = self.DB_client.read(querie)
             for row in rows:
                 commands.append(row)
@@ -59,6 +59,7 @@ class Cron_job:
         pass
 
     def update_db(self):
+
         pass
 
     def check_thresholds(self, username, command):
@@ -70,11 +71,11 @@ class Cron_job:
         if commands threshold is reached by user, email will be sent
         to user notifying him.
         """
-        querie = "SELECT * FROM users WHERE username = "+ username
+        querie = "SELECT * FROM users WHERE username = '{}'".format(username)
         user_data = self.DB_client.read(querie)
-        querie = "SELECT * FROM commands WHERE command = "+ command
+        querie = "SELECT * FROM commands WHERE command = '{}'".format(command)
         command_dict =  self.DB_client.read(querie)
-        querie = "SELECT * FROM user_command WHERE user_id = "+str(user_data["user_id"]) + "AND command_id = " + str(command_dict["command_id"])
+        querie = "SELECT * FROM user_command WHERE user_id = '{}' AND command_id = '{}'".format(user_data["user_id"], command_dict["command_id"])
         user_command = self.DB_client.read(querie)
         if command_dict["threshold"] <= user_command["count"]:
             self.send_alert(user_data["email"],"You have reached the limit on using "+ command_dict["command"] + " command")
