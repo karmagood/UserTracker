@@ -58,9 +58,23 @@ class Cron_job:
     def check_history(self):
         pass
 
-    def update_db(self):
+    def update_db(self, user_id, username, email, history_path):
+        """
+        fills usertracker Db user table with users data
+        :param user_id:
+        :param username:
+        :param email:
+        :param history_path:
+
+        """
+        querie = "INSERT INTO users (user_id, username, email, history_path) VALUES({},'{}','{}','{}')".format(user_id,
+                                                                                                               username,
+                                                                                                               email,
+                                                                                                               history_path)
+        DB_client.write(querie)
 
         pass
+
 
     def check_thresholds(self, username, command):
         """
