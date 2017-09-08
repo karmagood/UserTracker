@@ -54,7 +54,7 @@ class DB_client:
         self.cur.execute(querie)
         self.db.commit()
 
-    def update_commands(self,threshold, command_id):
+    def update_commands(self,command_id, threshold):
         """
         updates DB table(commands) with new threshold
         :param threshold: new threshold which woll replace old one
