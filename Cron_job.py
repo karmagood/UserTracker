@@ -64,12 +64,12 @@ class Cron_job:
 
     def check_thresholds(self, username, command):
         """
-        :param username: users username to cheak for ('aba')
+        :param username: users username, used to get additional data on user from DB
         :param command: comand to check for ('ls')
 
 
-        if commands threshold is reached by user, email will be sent
-        to user notifying him.
+        if commands threshold is reached by user, send_alert method
+        will be used to notify user.
         """
         querie = "SELECT * FROM users WHERE username = '{}'".format(username)
         user_data = self.DB_client.read(querie)
@@ -91,7 +91,7 @@ class Cron_job:
         fromaddr = 'freebsdcommtracker@gmail.com'
         msg = """From: {}
 To: {},
-Subject: Just a message
+Subject: Alert!
 
 {}
 """
