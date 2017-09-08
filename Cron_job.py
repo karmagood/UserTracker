@@ -75,10 +75,10 @@ class Cron_job:
         user_data = self.DB_client.read(querie)
         querie = "SELECT * FROM commands WHERE command = '{}'".format(command)
         command_dict =  self.DB_client.read(querie)
-        querie = "SELECT * FROM user_command WHERE user_id = '{}' AND command_id = '{}'".format(user_data["user_id"], command_dict["command_id"])
+        querie = "SELECT * FROM user_command WHERE user_id = '{}' AND command_id = '{}'".format(user_data[0]["user_id"], command_dict[0]["command_id"])
         user_command = self.DB_client.read(querie)
-        if command_dict["threshold"] <= user_command["count"]:
-            self.send_alert(user_data["email"],"You have reached the limit on using "+ command_dict["command"] + " command")
+        if command_dict[0]["threshold"] <= user_command[0]["counter"]:
+            self.send_alert(user_data[0]["email"],"You have reached the limit on using "+ command + " command")
 
 
     def send_alert(self,toaddrs,message):
