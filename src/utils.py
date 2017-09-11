@@ -88,8 +88,8 @@ Subject: Just a message
 
 
 
-def check_history(db_user_data):
-        pass
+def check_history(shell_client, db_user_data):
+        shell_client.call("history")
 
 def update_db(db_user_data):
         pass
