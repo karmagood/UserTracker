@@ -8,7 +8,6 @@ class Cron_job:
         self.shell_c = Shell_client()
         self.DB_client = DB_client()
 
-
     def get_host_users(self):
         """
         getting all users on the host and some info about them
