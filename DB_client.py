@@ -6,7 +6,7 @@ class DB_client:
         self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
                                     user="username",         # your username
                                     passwd="pass",  # your password
-                                    db="userTracker")        # name of the data base
+                                    db="usertracker")        # name of the data base
         self.cur = self.db.cursor(MySQLdb.cursors.DictCursor)       #cursor that lets execute quiery
 
     def read(self,querie):
