@@ -56,7 +56,13 @@ class Cron_job:
 
 
     def check_history(self):
-        pass
+        """
+        runs history command
+        :return: returns history command output
+        """
+        result = self.shell_c.call("history")
+        return result
+
 
     def update_db(self, user_id, command_id, username, history_path, threshold, counter):
         """
