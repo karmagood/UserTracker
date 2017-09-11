@@ -28,7 +28,7 @@ class Cron_job:
             j += 5
         return name_arr
 
-    def get_db_user_data(self,username):
+    def get_db_user_data(self, username):
         """
         :param username Users name
         getting all users data from DB
@@ -52,9 +52,6 @@ class Cron_job:
         result_arr.append(commands)
         return result_arr
 
-
-
-
     def check_history(self):
         """
         runs history command
@@ -62,7 +59,6 @@ class Cron_job:
         """
         result = self.shell_c.call("history")
         return result
-
 
     def update_db(self, user_id, command_id, username, history_path, threshold, counter):
         """
@@ -77,9 +73,6 @@ class Cron_job:
         self.DB_client.update_users(username, history_path)
         self.DB_client.update_commands(command_id, threshold)
         self.DB_client.update_user_command(counter,user_id, command_id)
-
-
-
 
     def check_thresholds(self, username, command):
         """
@@ -101,8 +94,7 @@ class Cron_job:
             self.send_alert(user_data[0]["email"],
                             "You have reached the limit on using "+ command + " command")
 
-
-    def send_alert(self,toaddrs,message):
+    def send_alert(self, toaddrs, message):
         """
         Sending email param: message
         to address param:toaddrs
