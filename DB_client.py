@@ -4,8 +4,8 @@ import MySQLdb
 class DB_client:
     def __init__(self):
         self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
-                                    user="username",         # your username
-                                    passwd="pass",  # your password
+                                    user="root",         # your username
+                                    passwd="@Kennym007",  # your password
                                     db="usertracker")        # name of the data base
         self.cur = self.db.cursor(MySQLdb.cursors.DictCursor)       #cursor that lets execute quiery
 
