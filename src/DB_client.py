@@ -4,9 +4,9 @@ import MySQLdb
 class DB_client:
     def __init__(self):
         self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
-                                    user="username",         # your username
-                                    passwd="pass",  # your password
-                                    db="userTracker")        # name of the data base
+                                    user="root",         # your username
+                                    passwd="@Kennym007",  # your password
+                                    db="usertracker")        # name of the data base
         self.cur = self.db.cursor(MySQLdb.cursors.DictCursor)       #cursor that lets execute quiery
 
     def read(self,querie):
@@ -23,9 +23,62 @@ class DB_client:
 
 
     def show_all(self):
+        """
+        displays all DB tables content
+        :return: None
+        """
+        querie = "SELECT * FROM users"
+        self.cur.execute(querie)
         for row in self.cur.fetchall():
-            print( row[0])
+            print(row)
 
+        querie = "SELECT * FROM commands"
+        self.cur.execute(querie)
+        for row in self.cur.fetchall():
+            print(row)
+
+        querie = "SELECT * FROM user_command"
+        self.cur.execute(querie)
+        for row in self.cur.fetchall():
+            print(row)
+
+    def update_users(self,username, history_path):
+        """
+        updates DB table(users) with new history_path
+        :param username: used in select to find needed user
+        :param history_path: new history path which will replace old one
+        :return: None
+        """
+        querie = "UPDATE users SET history_path = '{}' WHERE username = '{}'".format(history_path,
+                                                                                 username)
+        self.cur.execute(querie)
+        self.db.commit()
+
+    def update_commands(self,command_id, threshold):
+        """
+        updates DB table(commands) with new threshold
+        :param threshold: new threshold which will replace old one
+        :param command_id: used in select to track command
+        :return: None
+        """
+        querie = "UPDATE commands SET threshold = {} WHERE command_id = {}".format(threshold,
+                                                                                   command_id)
+        self.cur.execute(querie)
+        self.db.commit()
+
+    def update_user_command(self, counter, user_id, command_id):
+        """
+        updates DB table(user_command) with new counter
+        :param counter: used to replace old value
+        :param user_id: used in select to track users command
+        :param command_id: used in select to track command
+        :return: None
+        """
+        querie = "UPDATE user_command SET counter = {} WHERE user_id = {} AND command_id = {}".format(counter,
+                                                                                                      user_id,
+                                                                                                      command_id)
+        self.cur.execute(querie)
+        self.db.commit()
 
     def close_db(self):
         self.db.close()

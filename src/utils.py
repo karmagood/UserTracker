@@ -21,47 +21,48 @@ def get_host_users(shell_client):
 
 
 def get_db_user_data(username, DB_client):
-        """
-        :param username Users name
-        getting all users data from DB
-
-        :return array of dicts of all users data
-        """
-        querie = "SELECT * FROM users WHERE username = "+ username
-        user_data = DB_client.read(querie)
-        user_id = user_data[0]["user_id"]
-        querie = "SELECT * FROM user_command WHERE user_id = "+ str(user_id)
-        commands_ids = DB_client.read(querie)
-        commands = []
-        for item in commands_ids:
-            querie = "SELECT * FROM commands WHERE command_id = "+ str(item["command_id"])
-            rows = DB_client.read(querie)
-            for row in rows:
-                commands.append(row)
-        result_arr = []
-        result_arr.append(user_data)
-        result_arr.append(commands_ids)
-        result_arr.append(commands)
-        return result_arr
+    """
+           :param username Users name
+           getting all users data from DB
+           :return array of dicts of all users data
+           """
+    querie = "SELECT * FROM users WHERE username = '{}'".format(username)
+    user_data = DB_client.read(querie)
+    user_id = user_data[0]["user_id"]
+    querie = "SELECT * FROM user_command WHERE user_id = '{}'".format(user_id)
+    commands_ids = DB_client.read(querie)
+    commands = []
+    for item in commands_ids:
+        querie = "SELECT * FROM commands WHERE command_id = '{}'".format(item["command_id"])
+        rows = DB_client.read(querie)
+        for row in rows:
+            commands.append(row)
+    result_arr = []
+    result_arr.append(user_data)
+    result_arr.append(commands_ids)
+    result_arr.append(commands)
+    return result_arr
 
 
 def check_thresholds(username, command, DB_client):
-        """
-        :param username: users username to cheak for ('aba')
-        :param command: comand to check for ('ls')
+    """
+           :param username: users username, used to get additional data on user from DB
+           :param command: comand to check for ('ls')
+           if commands threshold is reached by user, send_alert method
+           will be used to notify user.
+           """
+    querie = "SELECT * FROM users WHERE username = '{}'".format(username)
+    user_data = DB_client.read(querie)
+    querie = "SELECT * FROM commands WHERE command = '{}'".format(command)
+    command_dict = DB_client.read(querie)
+    querie = "SELECT * FROM user_command WHERE user_id = '{}' AND command_id = '{}'".format(user_data[0]["user_id"],
+                                                                                            command_dict[0][
+                                                                                                "command_id"])
+    user_command = DB_client.read(querie)
+    if command_dict[0]["threshold"] <= user_command[0]["counter"]:
+        send_alert(user_data[0]["email"],
+                        "You have reached the limit on using " + command + " command")
 
-
-        if commands threshold is reached by user, email will be sent
-        to user notifying him.
-        """
-        querie = "SELECT * FROM users WHERE username = "+ username
-        user_data = DB_client.read(querie)
-        querie = "SELECT * FROM commands WHERE command = "+ command
-        command_dict =  DB_client.read(querie)
-        querie = "SELECT * FROM user_command WHERE user_id = "+str(user_data["user_id"]) + "AND command_id = " + str(command_dict["command_id"])
-        user_command = DB_client.read(querie)
-        if command_dict["threshold"] <= user_command["count"]:
-            send_alert(user_data["email"],"You have reached the limit on using "+ command_dict["command"] + " command")
 
 def send_alert(toaddrs,message):
         """
@@ -91,5 +92,17 @@ Subject: Just a message
 def check_history(shell_client, db_user_data):
         shell_client.call("history")
 
-def update_db(db_user_data):
-        pass
+def update_db(user_id, command_id, username, history_path, threshold, counter, DB_client):
+    """
+    fills usertracker Db user table with new users data
+    :param user_id:
+    :param command_id:
+    :param username:
+    :param history_path:
+    :param threshold:
+    :param counter:
+    """
+    DB_client.update_users(username, history_path)
+    DB_client.update_commands(command_id, threshold)
+    DB_client.update_user_command(counter,user_id, command_id)
+
