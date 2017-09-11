@@ -57,7 +57,7 @@ class DB_client:
     def update_commands(self,command_id, threshold):
         """
         updates DB table(commands) with new threshold
-        :param threshold: new threshold which woll replace old one
+        :param threshold: new threshold which will replace old one
         :param command_id: used in select to track command
         :return: None
         """
