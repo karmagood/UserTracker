@@ -30,17 +30,17 @@ class DB_client:
         querie = "SELECT * FROM users"
         self.cur.execute(querie)
         for row in self.cur.fetchall():
-            print( row[0])
+            print(row)
 
         querie = "SELECT * FROM commands"
         self.cur.execute(querie)
         for row in self.cur.fetchall():
-            print( row[0])
+            print(row)
 
         querie = "SELECT * FROM user_command"
         self.cur.execute(querie)
         for row in self.cur.fetchall():
-            print( row[0])
+            print(row)
 
     def update_users(self,username, history_path):
         """
