@@ -49,7 +49,7 @@ class DB_client:
         :param history_path: new history path which will replace old one
         :return: None
         """
-        querie = "UPDATE users SET history_path = '{}' WHERE username = {}".format(history_path,
+        querie = "UPDATE users SET history_path = '{}' WHERE username = '{}'".format(history_path,
                                                                                  username)
         self.cur.execute(querie)
         self.db.commit()
