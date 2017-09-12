@@ -74,6 +74,7 @@ To: {},
 Subject: Just a message
 
 {}
+Contact admin to increase commands threshold or to erase your previous logs
 """
         username = 'freebsdcommtracker@gmail.com'
         password = 'Freebsd2017'
