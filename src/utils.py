@@ -94,19 +94,22 @@ Contact admin to increase commands threshold or to erase your previous logs.
 def check_history(shell_client, username):
         shell_client.call("history")
 
-def update_db(user_id, command_id, username, history_path, threshold, counter, DB_client):
-    """
-    fills usertracker Db user table with new users data
-    :param user_id:
-    :param command_id:
-    :param username:
-    :param history_path:
-    :param threshold:
-    :param counter:
-    """
-    DB_client.update_users(username, history_path)
-    DB_client.update_commands(command_id, threshold)
-    DB_client.update_user_command(counter,user_id, command_id)
+
+def update_users(self,username, history_path, DB_client):
+    querie = "UPDATE users SET history_path = '{}' WHERE username = '{}'".format(history_path,
+                                                                                 username)
+    DB_client.write(querie)
+
+def update_commands(self,command_id, threshold, DB_client):
+    querie = "UPDATE commands SET threshold = {} WHERE command_id = {}".format(threshold,
+                                                                               command_id)
+    DB_client.write(querie)
+
+def update_user_command(self, counter, user_id, command_id, DB_client):
+    querie = "UPDATE user_command SET counter = {} WHERE user_id = {} AND command_id = {}".format(counter,
+                                                                                                  user_id,
+                                                                                                  command_id)
+    DB_client.write(querie)
 
 if __name__ == '__main__':
     import Shell_client
