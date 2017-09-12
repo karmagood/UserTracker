@@ -56,10 +56,10 @@ def check_thresholds(username, command, DB_client):
                                                                                                 "command_id"])
     user_command = DB_client.read(querie)
     if command_dict[0]["threshold"] <= user_command[0]["counter"]:
-        msg = "You({}) have reached the limit on using {}: {}/{}.".format(username,
-                                                                         command,
-                                                                         user_command[0]["counter"],
-                                                                         command_dict[0]["threshold"])
+        msg = "You({}) have reached the limit on using {} command: {}/{}.".format(username,
+                                                                                  command,
+                                                                                  user_command[0]["counter"],
+                                                                                  command_dict[0]["threshold"])
         send_alert(user_data[0]["email"],msg)
         #"You have reached the limit on using " + command + " command")
 
