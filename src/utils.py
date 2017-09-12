@@ -95,17 +95,17 @@ def check_history(shell_client, username):
         shell_client.call("history")
 
 
-def update_users(self,username, history_path, DB_client):
+def update_users(username, history_path, DB_client):
     querie = "UPDATE users SET history_path = '{}' WHERE username = '{}'".format(history_path,
                                                                                  username)
     DB_client.write(querie)
 
-def update_commands(self,command_id, threshold, DB_client):
+def update_commands(command_id, threshold, DB_client):
     querie = "UPDATE commands SET threshold = {} WHERE command_id = {}".format(threshold,
                                                                                command_id)
     DB_client.write(querie)
 
-def update_user_command(self, counter, user_id, command_id, DB_client):
+def update_user_command(counter, user_id, command_id, DB_client):
     querie = "UPDATE user_command SET counter = {} WHERE user_id = {} AND command_id = {}".format(counter,
                                                                                                   user_id,
                                                                                                   command_id)
