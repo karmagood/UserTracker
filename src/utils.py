@@ -96,16 +96,38 @@ def check_history(shell_client, username):
 
 
 def update_users(username, history_path, DB_client):
+    """
+    Updates users table with new history
+    :param username: used to track user
+    :param history_path: new data
+    :param DB_client:
+    :return: None
+    """
     querie = "UPDATE users SET history_path = '{}' WHERE username = '{}'".format(history_path,
                                                                                  username)
     DB_client.write(querie)
 
 def update_commands(command_id, threshold, DB_client):
+    """
+    Updates commands table with new threshold
+    :param command_id: used to track command
+    :param threshold: new data
+    :param DB_client:
+    :return: None
+    """
     querie = "UPDATE commands SET threshold = {} WHERE command_id = {}".format(threshold,
                                                                                command_id)
     DB_client.write(querie)
 
 def update_user_command(counter, user_id, command_id, DB_client):
+    """
+    Updates user_command table
+    :param counter: new data
+    :param user_id: used to track user
+    :param command_id: used to track command
+    :param DB_client:
+    :return: None
+    """
     querie = "UPDATE user_command SET counter = {} WHERE user_id = {} AND command_id = {}".format(counter,
                                                                                                   user_id,
                                                                                                   command_id)
