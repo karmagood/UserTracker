@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
 	username varchar(255) NOT NULL,
 	email varchar(255),
 	history_path varchar(255),
+	last_history_point int(10),
 	PRIMARY KEY (user_id),
 	KEY (username)
 );
