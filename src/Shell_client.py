@@ -10,7 +10,5 @@ class Shell_client:
         :param command: command that will be executed.
         :return: output of command execution.
         """
-        comm_array = command.split(" ")
-        proc = subprocess.Popen(comm_array, stdout=subprocess.PIPE)
-        output = proc.stdout.read()
+        output = subprocess.check_output(command, executable="bash", shell=True )
         return output

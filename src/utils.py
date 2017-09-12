@@ -1,23 +1,19 @@
 import smtplib
+import re
 
 def get_host_users(shell_client):
     """
     getting all users on the host and some info about them
-    :return: returns list of dictionaries : [{"Vlad":[tty,logedin@]},{...},...]
+    :return: returns list of tuples : [('vlad',tty,logedin@),(...),...]
     """
-    command = "who"
+    command = "last"
     output = shell_client.call(command)
-    result = output.strip().split(" ")
-    result = filter(None, result)
-    j = 0
-    name_arr = []
-    for i in range(len(result) / 5):
-        u_data = []
-        for y in range(j + 1, j + 5):
-            u_data.append(result[y])
-        name_arr.append({result[j]: u_data})
-        j += 5
-    return name_arr
+    result = output.split("\n")
+    #result = [re.split(re.compile("\s+"), res) for res in result]
+    result = [(r[:9].rstrip(" "), r[9:22].rstrip(" "), r[22:39].rstrip(" "), r[39:].rstrip(" "))for r in result[:-3]]
+    print result
+
+    return result
 
 
 def get_db_user_data(username, DB_client):
@@ -89,7 +85,7 @@ Subject: Just a message
 
 
 
-def check_history(shell_client, db_user_data):
+def check_history(shell_client, username):
         shell_client.call("history")
 
 def update_db(user_id, command_id, username, history_path, threshold, counter, DB_client):
@@ -106,3 +102,6 @@ def update_db(user_id, command_id, username, history_path, threshold, counter, D
     DB_client.update_commands(command_id, threshold)
     DB_client.update_user_command(counter,user_id, command_id)
 
+if __name__ == '__main__':
+    import Shell_client
+    get_host_users(Shell_client.Shell_client())
