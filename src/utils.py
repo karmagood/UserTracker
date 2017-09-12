@@ -11,7 +11,7 @@ def get_host_users(shell_client):
     result = output.split("\n")
     #result = [re.split(re.compile("\s+"), res) for res in result]
     result = [(r[:9].rstrip(" "), r[9:22].rstrip(" "), r[22:39].rstrip(" "), r[39:].rstrip(" "))for r in result[:-3]]
-    print result
+    #print(result)
 
     return result
 
@@ -56,8 +56,12 @@ def check_thresholds(username, command, DB_client):
                                                                                                 "command_id"])
     user_command = DB_client.read(querie)
     if command_dict[0]["threshold"] <= user_command[0]["counter"]:
-        send_alert(user_data[0]["email"],
-                        "You have reached the limit on using " + command + " command")
+        msg = "You({}) have reached the limit on using {}, {}/{}".format(username,
+                                                                         command,
+                                                                         user_command[0]["counter"],
+                                                                         command_dict[0]["threshold"])
+        send_alert(user_data[0]["email"],msg)
+        #"You have reached the limit on using " + command + " command")
 
 
 def send_alert(toaddrs,message):
@@ -68,10 +72,10 @@ def send_alert(toaddrs,message):
         fromaddr = 'freebsdcommtracker@gmail.com'
         msg = """From: {}
 To: {},
-Subject: Just a message
+Subject: FreeBSD security controll
 
 {}
-Contact admin to increase commands threshold or to erase your previous logs
+Contact admin to increase commands threshold or to erase your previous logs.
 """
         username = 'freebsdcommtracker@gmail.com'
         password = 'Freebsd2017'
