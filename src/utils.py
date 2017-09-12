@@ -56,7 +56,7 @@ def check_thresholds(username, command, DB_client):
                                                                                                 "command_id"])
     user_command = DB_client.read(querie)
     if command_dict[0]["threshold"] <= user_command[0]["counter"]:
-        msg = "You({}) have reached the limit on using {}, {}/{}".format(username,
+        msg = "You({}) have reached the limit on using {}: {}/{}.".format(username,
                                                                          command,
                                                                          user_command[0]["counter"],
                                                                          command_dict[0]["threshold"])
@@ -75,6 +75,7 @@ To: {},
 Subject: FreeBSD security controll
 
 {}
+
 Contact admin to increase commands threshold or to erase your previous logs.
 """
         username = 'freebsdcommtracker@gmail.com'
